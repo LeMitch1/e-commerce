@@ -1,0 +1,71 @@
+import { fetchProducts } from "../api";
+import { useEffect, useState } from "react";
+import {
+  Card,
+  CardBody,
+  Image,
+  Stack,
+  Heading,
+  Text,
+  Divider,
+  CardFooter,
+  ButtonGroup,
+  Button,
+} from "@chakra-ui/react";
+import "../Products.css";
+
+export default function Products() {
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    async function ProductFetch() {
+      try {
+        const data = await fetchProducts();
+        setProduct(data);
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    ProductFetch();
+  }, []);
+
+  return (
+    <div className="Products">
+      {product.map((i) => (
+        <Card
+          maxW="sm"
+          key={i.id}
+          margin={6}
+          bgGradient="linear(to-t, green.200, pink.500)"
+        >
+          <CardBody>
+            <Image src={i.image} alt={i.title} borderRadius="lg" />
+            <Stack mt="6" spacing="3">
+              {i.title.length > 15 ? (
+                <Heading size="md">{i.title.slice(0, 15)}...</Heading>
+              ) : (
+                <Heading size="md">{i.title}</Heading>
+              )}
+              {/* <Text>{i.description}</Text> */}
+              <Text color="blue.600" fontSize="2xl">
+                ${i.price}
+              </Text>
+            </Stack>
+          </CardBody>
+          <Divider />
+          <CardFooter>
+            <ButtonGroup spacing="2">
+              <Button variant="solid" colorScheme="blue">
+                Buy now
+              </Button>
+              <Button variant="ghost" colorScheme="blue">
+                Add to cart
+              </Button>
+            </ButtonGroup>
+          </CardFooter>
+        </Card>
+      ))}
+    </div>
+  );
+}
