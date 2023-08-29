@@ -16,6 +16,10 @@ import "../Products.css";
 
 export default function Products() {
   const [product, setProduct] = useState([]);
+  let USDollar = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   useEffect(() => {
     async function ProductFetch() {
@@ -49,7 +53,7 @@ export default function Products() {
               )}
               {/* <Text>{i.description}</Text> */}
               <Text color="blue.600" fontSize="2xl">
-                ${i.price}
+                {USDollar.format(i.price)}
               </Text>
             </Stack>
           </CardBody>
