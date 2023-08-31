@@ -8,30 +8,26 @@ import {
 import { useState } from "react";
 
 export default function Register() {
-  const [username, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const handleUserNameChange = (e) => setUserName(e.target.value);
+  const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
   const isError = username === "";
 
-  const validPassword = password.length > 7;
-
-  // WORK ON PASSWORD
+  const validPassword = password.length < 7;
 
   return (
     <>
-      <FormControl isInvalid={isError}>
+      <FormControl isInvalid={isError} isRequired>
         <FormLabel>Username</FormLabel>
-        <Input type="text" value={username} onChange={handleUserNameChange} />
+        <Input type="text" value={username} onChange={handleUsernameChange} />
         {!isError ? (
-          <FormHelperText>
-            Enter the username you'd like to receive the newsletter on.
-          </FormHelperText>
+          <FormHelperText>Please enter your username</FormHelperText>
         ) : (
           <FormErrorMessage>Username is required.</FormErrorMessage>
         )}
       </FormControl>
-      <FormControl isInvalid={validPassword}>
+      <FormControl isInvalid={validPassword} isRequired>
         <FormLabel>Password</FormLabel>
         <Input
           type="password"
