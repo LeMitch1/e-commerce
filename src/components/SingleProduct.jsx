@@ -52,7 +52,7 @@ export default function SingleProduct() {
               <Text color="blue.600" fontSize="2xl">
                 {USDollar.format(product.price)}
               </Text>
-              <Text>{product.rating?.rate}</Text>
+              <Text>{product.rating?.rate}⭐️</Text>
             </Stack>
           </CardBody>
           <Divider />
