@@ -9,6 +9,9 @@ export default function NavBar() {
       <Link to="/register">
         <p>Register</p>
       </Link>
+      <Link to="/view-product">
+        <p>View Product</p>
+      </Link>
     </header>
   );
 }

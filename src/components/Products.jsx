@@ -1,4 +1,4 @@
-import { fetchProducts } from "../api";
+import { fetchProducts } from "../API";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -13,9 +13,12 @@ import {
   Button,
 } from "@chakra-ui/react";
 import "../Products.css";
+import SingleProduct from "./SingleProduct";
 
 export default function Products() {
   const [product, setProduct] = useState([]);
+  const [showDetails, setShowDetails] = useState(false);
+
   let USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -34,6 +37,10 @@ export default function Products() {
     ProductFetch();
   }, []);
 
+  function handleDetailsClick() {
+    setShowDetails(!showDetails);
+  }
+
   return (
     <div className="Products">
       {product.map((i) => (
@@ -41,7 +48,7 @@ export default function Products() {
           maxW="sm"
           key={i.id}
           margin={6}
-          bgGradient="linear(to-t, green.200, pink.500)"
+          // bgGradient="linear(to-t, green.200, pink.500)"
         >
           <CardBody>
             <Image src={i.image} alt={i.title} borderRadius="lg" />
@@ -60,8 +67,12 @@ export default function Products() {
           <Divider />
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button variant="solid" colorScheme="blue">
-                Buy now
+              <Button
+                variant="solid"
+                colorScheme="blue"
+                onClick={handleDetailsClick}
+              >
+                Details {showDetails && <SingleProduct />}
               </Button>
               <Button variant="ghost" colorScheme="blue">
                 Add to cart
