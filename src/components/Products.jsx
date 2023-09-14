@@ -47,7 +47,12 @@ export default function Products() {
           // bgGradient="linear(to-t, green.200, pink.500)"
         >
           <CardBody>
-            <Image src={i.image} alt={i.title} borderRadius="lg" />
+            <Image
+              src={i.image}
+              alt={i.title}
+              borderRadius="lg"
+              className="Products"
+            />
             <Stack mt="6" spacing="3">
               {i.title.length > 15 ? (
                 <Heading size="md">{i.title.slice(0, 15)}...</Heading>
