@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { fetchProducts, fetchSingleProduct } from "../API";
+import { useParams } from "react-router-dom";
+import { fetchSingleProduct } from "../API";
 import {
   Button,
   Card,
@@ -13,7 +13,6 @@ import {
   CardFooter,
   ButtonGroup,
 } from "@chakra-ui/react";
-import ModalComponent from "./ModalComponent";
 
 export default function SingleProduct() {
   const [product, setProduct] = useState([]);

@@ -14,7 +14,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import "../Products.css";
-import SingleProduct from "./SingleProduct";
 import ModalComponent from "./ModalComponent";
 
 export default function Products() {
@@ -67,7 +66,7 @@ export default function Products() {
               {/* <Button variant="solid" colorScheme="blue">
                 Details
               </Button> */}
-              <ModalComponent productId={i.id} />
+              {/* <ModalComponent productId={i.id} /> */}
               <Link to={`/products/${i.id}`}>View Product</Link>
               <Button variant="ghost" colorScheme="blue">
                 Add to cart

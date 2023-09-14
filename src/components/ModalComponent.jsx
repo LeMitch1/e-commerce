@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { fetchSingleProduct } from "../API";
 
 export default function ModalComponent(productId) {
