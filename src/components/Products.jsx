@@ -1,5 +1,6 @@
 import { fetchProducts } from "../API";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -14,12 +15,12 @@ import {
 } from "@chakra-ui/react";
 import "../Products.css";
 import SingleProduct from "./SingleProduct";
+import ModalComponent from "./ModalComponent";
 
 export default function Products() {
   const [product, setProduct] = useState([]);
-  const [showDetails, setShowDetails] = useState(false);
 
-  let USDollar = new Intl.NumberFormat("en-US", {
+  const USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
@@ -36,10 +37,6 @@ export default function Products() {
     }
     ProductFetch();
   }, []);
-
-  function handleDetailsClick() {
-    setShowDetails(!showDetails);
-  }
 
   return (
     <div className="Products">
@@ -67,13 +64,11 @@ export default function Products() {
           <Divider />
           <CardFooter>
             <ButtonGroup spacing="2">
-              <Button
-                variant="solid"
-                colorScheme="blue"
-                onClick={handleDetailsClick}
-              >
-                Details {showDetails && <SingleProduct />}
-              </Button>
+              {/* <Button variant="solid" colorScheme="blue">
+                Details
+              </Button> */}
+              <ModalComponent productId={i.id} />
+              <Link to={`/products/${i.id}`}>View Product</Link>
               <Button variant="ghost" colorScheme="blue">
                 Add to cart
               </Button>

@@ -10,9 +10,9 @@ function App() {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Products />} />
+        <Route path="/products" element={<Products />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/view-product" element={<SingleProduct />} />
+        <Route path="/products/:productId" element={<SingleProduct />} />
       </Routes>
     </>
   );
