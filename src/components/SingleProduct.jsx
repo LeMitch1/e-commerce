@@ -1,7 +1,8 @@
-import { fetchProducts } from "../API";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { fetchSingleProduct } from "../API";
 import {
+  Button,
   Card,
   CardBody,
   Image,
@@ -11,53 +12,47 @@ import {
   Divider,
   CardFooter,
   ButtonGroup,
-  Button,
 } from "@chakra-ui/react";
-import "../Products.css";
-import ModalComponent from "./ModalComponent";
 
-export default function Products() {
+export default function SingleProduct() {
   const [product, setProduct] = useState([]);
-
+  const { productId } = useParams();
   const USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
 
   useEffect(() => {
-    async function ProductFetch() {
+    async function SingleProductFetch() {
       try {
-        const data = await fetchProducts();
-        setProduct(data);
+        const data = await fetchSingleProduct(productId);
         console.log(data);
+        setProduct(data);
       } catch (err) {
         console.log(err);
       }
     }
-    ProductFetch();
-  }, []);
+    SingleProductFetch();
+  }, [productId]);
 
   return (
-    <div className="Products">
-      {product.map((i) => (
+    <>
+      {product && (
         <Card
           maxW="sm"
-          key={i.id}
+          key={product.id}
           margin={6}
           // bgGradient="linear(to-t, green.200, pink.500)"
         >
           <CardBody>
-            <Image src={i.image} alt={i.title} borderRadius="lg" />
+            <Image src={product.image} alt={product.title} borderRadius="lg" />
             <Stack mt="6" spacing="3">
-              {i.title.length > 15 ? (
-                <Heading size="md">{i.title.slice(0, 15)}...</Heading>
-              ) : (
-                <Heading size="md">{i.title}</Heading>
-              )}
-              {/* <Text>{i.description}</Text> */}
+              <Heading size="md">{product.title}</Heading>
+              <Text>{product.description}</Text>
               <Text color="blue.600" fontSize="2xl">
-                {USDollar.format(i.price)}
+                {USDollar.format(product.price)}
               </Text>
+              <Text>{product.rating?.rate}⭐️</Text>
             </Stack>
           </CardBody>
           <Divider />
@@ -66,15 +61,14 @@ export default function Products() {
               {/* <Button variant="solid" colorScheme="blue">
                 Details
               </Button> */}
-              {/* <ModalComponent productId={i.id} /> */}
-              <Link to={`/products/${i.id}`}>View Product</Link>
               <Button variant="ghost" colorScheme="blue">
                 Add to cart
               </Button>
             </ButtonGroup>
           </CardFooter>
         </Card>
-      ))}
-    </div>
+      )}
+      )
+    </>
   );
 }
