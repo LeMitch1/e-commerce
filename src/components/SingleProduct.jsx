@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { fetchSingleProduct } from "../API";
 import {
   Button,
@@ -12,6 +12,7 @@ import {
   Divider,
   CardFooter,
   ButtonGroup,
+  Link,
 } from "@chakra-ui/react";
 
 export default function SingleProduct() {
@@ -21,6 +22,7 @@ export default function SingleProduct() {
     style: "currency",
     currency: "USD",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function SingleProductFetch() {
@@ -64,11 +66,17 @@ export default function SingleProduct() {
               <Button variant="ghost" colorScheme="blue">
                 Add to cart
               </Button>
+              <Button
+                variant="solid"
+                colorScheme="red"
+                onClick={() => navigate("/products")}
+              >
+                Go Back
+              </Button>
             </ButtonGroup>
           </CardFooter>
         </Card>
       )}
-      )
     </>
   );
 }
