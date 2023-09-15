@@ -1,6 +1,6 @@
 import "./App.css";
 import Products from "./components/Products";
-import Register from "./components/Register";
+import Register from "./components/Login";
 import SingleProduct from "./components/SingleProduct";
 import Home from "./components/Home";
 import NavBar from "./components/NavBar";
@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Register />} />
         <Route path="/products/:productId" element={<SingleProduct />} />
       </Routes>
     </>

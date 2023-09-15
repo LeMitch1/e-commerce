@@ -3,7 +3,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
   Menu,
@@ -16,12 +15,14 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import ModalComponent from "./ModalComponent";
+import { useState } from "react";
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const Links = ["Home", "Products", "Login"];
-  const navigate = useNavigate();
 
   const NavLink = (props) => {
     const { children } = props;
@@ -35,7 +36,7 @@ export default function NavBar() {
           textDecoration: "none",
           bg: useColorModeValue("gray.200", "gray.700"),
         }}
-        href={"#"}
+        href={children === "Home" ? "/" : children}
       >
         {children}
       </Box>
@@ -60,15 +61,24 @@ export default function NavBar() {
               spacing={4}
               display={{ base: "none", md: "flex" }}
             >
-              {/* WORK ON LINKS */}
               {Links.map((link) => (
-                <NavLink key={link} onClick={() => navigate(`/${link}`)}>
-                  {link}
-                </NavLink>
+                <NavLink key={link}>{link}</NavLink>
               ))}
             </HStack>
           </HStack>
           <Flex alignItems={"center"}>
+            <Menu>
+              <MenuButton>
+                <FontAwesomeIcon
+                  icon={faCartShopping}
+                  style={{ color: "#4299e1" }}
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem>View Cart</MenuItem>
+                <MenuItem>Checkout</MenuItem>
+              </MenuList>
+            </Menu>
             <Menu>
               <MenuButton
                 as={Button}
@@ -85,10 +95,8 @@ export default function NavBar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Log out</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
@@ -105,17 +113,5 @@ export default function NavBar() {
         ) : null}
       </Box>
     </>
-
-    // <header>
-    //   <Link to="/">
-    //     <p>Home</p>
-    //   </Link>
-    //   <Link to="/products">
-    //     <p>Products</p>
-    //   </Link>
-    //   <Link to="/register">
-    //     <p>Register</p>
-    //   </Link>
-    // </header>
   );
 }
