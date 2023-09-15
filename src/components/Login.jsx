@@ -1,7 +1,15 @@
 import {
+  Flex,
+  Box,
   FormControl,
   FormLabel,
   Input,
+  Checkbox,
+  Stack,
+  Button,
+  Heading,
+  Text,
+  useColorModeValue,
   FormHelperText,
   FormErrorMessage,
 } from "@chakra-ui/react";
@@ -17,31 +25,76 @@ export default function Login() {
   const validPassword = password.length < 7;
 
   return (
-    <>
-      <FormControl isInvalid={isError} isRequired>
-        <FormLabel>Username</FormLabel>
-        <Input type="text" value={username} onChange={handleUsernameChange} />
-        {!isError ? (
-          <FormHelperText>Please enter your username</FormHelperText>
-        ) : (
-          <FormErrorMessage>Username is required.</FormErrorMessage>
-        )}
-      </FormControl>
-      <FormControl isInvalid={validPassword} isRequired>
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          value={password}
-          onChange={handlePasswordChange}
-        />
-        {!validPassword ? (
-          <FormHelperText>Enter your password</FormHelperText>
-        ) : (
-          <FormErrorMessage>
-            Password must be at least 8 characters
-          </FormErrorMessage>
-        )}
-      </FormControl>
-    </>
+    <Flex
+      minH={"87vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+          <Text fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool <Text color={"blue.400"}>features</Text>
+          </Text>
+        </Stack>
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
+          <Stack spacing={4}>
+            <FormControl id="email" isInvalid={isError} isRequired>
+              <FormLabel>Username</FormLabel>
+              <Input
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+              />
+              {!isError ? (
+                <FormHelperText>Please enter your username</FormHelperText>
+              ) : (
+                <FormErrorMessage>Username is required.</FormErrorMessage>
+              )}
+            </FormControl>
+            <FormControl id="password" isInvalid={validPassword} isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+              {!validPassword ? (
+                <FormHelperText>Enter your password</FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  Password must be at least 8 characters
+                </FormErrorMessage>
+              )}
+            </FormControl>
+            <Stack spacing={10}>
+              <Stack
+                direction={{ base: "column", sm: "row" }}
+                align={"start"}
+                justify={"space-between"}
+              >
+                <Text>Don&apos;t have an account?</Text>
+                <Text color={"blue.400"}>Sign up here</Text>
+              </Stack>
+              <Button
+                bg={"blue.400"}
+                color={"white"}
+                _hover={{
+                  bg: "blue.500",
+                }}
+              >
+                Sign in
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </Stack>
+    </Flex>
   );
 }
