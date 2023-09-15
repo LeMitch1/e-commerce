@@ -17,6 +17,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
 import ModalComponent from "./ModalComponent";
 import { useState } from "react";
 
@@ -55,7 +56,9 @@ export default function NavBar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box>
+              <FontAwesomeIcon icon={faHouseLaptop} size="xl" />
+            </Box>
             <HStack
               as={"nav"}
               spacing={4}
@@ -69,10 +72,7 @@ export default function NavBar() {
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton>
-                <FontAwesomeIcon
-                  icon={faCartShopping}
-                  style={{ color: "#4299e1" }}
-                />
+                <FontAwesomeIcon icon={faCartShopping} />
               </MenuButton>
               <MenuList>
                 <MenuItem>View Cart</MenuItem>
