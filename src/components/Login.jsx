@@ -15,11 +15,13 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { fetchLogin } from "../API";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({ setUser }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isFetching, setIsFetching] = useState(true);
+  const navigate = useNavigate();
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -30,9 +32,13 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     const user = await fetchLogin(username, password);
+    setUser({ username: username, password: password });
     console.log(user.token);
+    navigate("/profile");
+
     setUsername("");
     setPassword("");
+
     localStorage.setItem("isLoggedIn", JSON.stringify(true));
     localStorage.setItem("userToken", JSON.stringify(user.token));
   }
