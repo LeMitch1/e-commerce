@@ -20,16 +20,18 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
 import ModalComponent from "./ModalComponent";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const Links = ["Home", "Products", "Login"];
+  const navigate = useNavigate();
 
   const NavLink = (props) => {
     const { children } = props;
     return (
       <Box
-        as="a"
+        as="button"
         px={2}
         py={1}
         rounded={"md"}
@@ -37,7 +39,9 @@ export default function NavBar() {
           textDecoration: "none",
           bg: useColorModeValue("gray.200", "gray.700"),
         }}
-        href={children === "Home" ? "/" : children}
+        onClick={() =>
+          children === "Home" ? navigate("/") : navigate(children)
+        }
       >
         {children}
       </Box>
