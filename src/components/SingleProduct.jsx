@@ -12,12 +12,14 @@ import {
   Divider,
   CardFooter,
   ButtonGroup,
-  Link,
+  Spinner,
 } from "@chakra-ui/react";
 
 export default function SingleProduct() {
   const [product, setProduct] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
   const { productId } = useParams();
+
   const USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -30,6 +32,7 @@ export default function SingleProduct() {
         const data = await fetchSingleProduct(productId);
         console.log(data);
         setProduct(data);
+        setIsFetching(false);
       } catch (err) {
         console.log(err);
       }
@@ -39,7 +42,16 @@ export default function SingleProduct() {
 
   return (
     <>
-      {product && (
+      {isFetching ? (
+        <Stack
+          paddingTop={12}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Spinner boxSize="12em" size="xl" color="blue.500" thickness="4px" />
+        </Stack>
+      ) : (
         <Card
           maxW="sm"
           key={product.id}

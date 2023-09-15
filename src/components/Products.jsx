@@ -12,12 +12,14 @@ import {
   CardFooter,
   ButtonGroup,
   Button,
+  Spinner,
 } from "@chakra-ui/react";
 import "../Products.css";
 import ModalComponent from "./ModalComponent";
 
 export default function Products() {
   const [product, setProduct] = useState([]);
+  const [isFetching, setIsFetching] = useState(true);
 
   const USDollar = new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -29,6 +31,7 @@ export default function Products() {
       try {
         const data = await fetchProducts();
         setProduct(data);
+        setIsFetching(false);
         console.log(data);
       } catch (err) {
         console.log(err);
@@ -38,48 +41,61 @@ export default function Products() {
   }, []);
 
   return (
-    <div className="Products">
-      {product.map((i) => (
-        <Card
-          maxW="sm"
-          key={i.id}
-          margin={6}
-          // bgGradient="linear(to-t, green.200, pink.500)"
+    <>
+      {isFetching ? (
+        <Stack
+          paddingTop={12}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
         >
-          <CardBody>
-            <Image
-              src={i.image}
-              alt={i.title}
-              borderRadius="lg"
-              className="Products"
-            />
-            <Stack mt="6" spacing="3">
-              {i.title.length > 15 ? (
-                <Heading size="md">{i.title.slice(0, 15)}...</Heading>
-              ) : (
-                <Heading size="md">{i.title}</Heading>
-              )}
-              {/* <Text>{i.description}</Text> */}
-              <Text color="blue.600" fontSize="2xl">
-                {USDollar.format(i.price)}
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing="2">
-              {/* <Button variant="solid" colorScheme="blue">
+          <Spinner boxSize="12em" size="xl" color="blue.500" thickness="4px" />
+        </Stack>
+      ) : (
+        <div className="Products">
+          {product.map((i) => (
+            <Card
+              maxW="sm"
+              key={i.id}
+              margin={6}
+              // bgGradient="linear(to-t, green.200, pink.500)"
+            >
+              <CardBody>
+                <Image
+                  src={i.image}
+                  alt={i.title}
+                  borderRadius="lg"
+                  className="Products"
+                />
+                <Stack mt="6" spacing="3">
+                  {i.title.length > 15 ? (
+                    <Heading size="md">{i.title.slice(0, 15)}...</Heading>
+                  ) : (
+                    <Heading size="md">{i.title}</Heading>
+                  )}
+                  {/* <Text>{i.description}</Text> */}
+                  <Text color="blue.600" fontSize="2xl">
+                    {USDollar.format(i.price)}
+                  </Text>
+                </Stack>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <ButtonGroup spacing="2">
+                  {/* <Button variant="solid" colorScheme="blue">
                 Details
               </Button> */}
-              {/* <ModalComponent productId={i.id} /> */}
-              <Link to={`/products/${i.id}`}>View Product</Link>
-              <Button variant="ghost" colorScheme="blue">
-                Add to cart
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+                  {/* <ModalComponent productId={i.id} /> */}
+                  <Link to={`/products/${i.id}`}>View Product</Link>
+                  <Button variant="ghost" colorScheme="blue">
+                    Add to cart
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
