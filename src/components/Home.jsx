@@ -7,8 +7,11 @@ import {
   Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
@@ -52,6 +55,7 @@ export default function Home() {
               _hover={{
                 bg: "blue.500",
               }}
+              onClick={() => navigate("/Products")}
             >
               View All Products
             </Button>
