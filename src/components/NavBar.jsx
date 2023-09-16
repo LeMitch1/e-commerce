@@ -91,7 +91,7 @@ export default function NavBar() {
                 <FontAwesomeIcon icon={faCartShopping} />
               </MenuButton>
               <MenuList>
-                <MenuItem>View Cart</MenuItem>
+                <MenuItem onClick={() => navigate("/cart")}>View Cart</MenuItem>
                 <MenuItem>Checkout</MenuItem>
               </MenuList>
             </Menu>

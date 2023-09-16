@@ -9,6 +9,7 @@ import { AuthProvider } from "./components/auth";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { RequireAuth } from "./components/RequireAuth";
+import Cart from "./components/Cart";
 
 function App() {
   // const [user, setUser] = useState(null);
@@ -20,6 +21,7 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/login" element={<Login />} />
         <Route path="/products/:productId" element={<SingleProduct />} />
+        <Route path="/cart" element={<Cart />} />
         <Route
           path="/profile"
           element={
