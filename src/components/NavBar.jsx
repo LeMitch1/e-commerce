@@ -99,7 +99,9 @@ export default function NavBar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Profile</MenuItem>
+                <MenuItem onClick={() => navigate("/profile")}>
+                  Profile
+                </MenuItem>
                 <MenuItem>Log out</MenuItem>
               </MenuList>
             </Menu>
