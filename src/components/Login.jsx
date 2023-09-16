@@ -40,7 +40,7 @@ export default function Login() {
     console.log(username, password);
 
     localStorage.setItem("isLoggedIn", JSON.stringify(true));
-    localStorage.setItem("userToken", JSON.stringify(user.token));
+    localStorage.setItem("userToken", JSON.stringify(loggedInUser.token));
   }
 
   const isError = username === "";

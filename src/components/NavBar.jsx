@@ -13,6 +13,7 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -70,6 +71,9 @@ export default function NavBar() {
           <HStack spacing={8} alignItems={"center"}>
             <Box>
               <FontAwesomeIcon icon={faHouseLaptop} size="xl" />
+              <Text fontWeight="bold" fontFamily="system-ui">
+                One-Stop
+              </Text>
             </Box>
             <HStack
               as={"nav"}
