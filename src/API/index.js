@@ -1,6 +1,8 @@
 const API_URL = "https://fakestoreapi.com/products";
 const LOGIN_URL = "https://fakestoreapi.com/auth/login";
+// const LOGIN_URL = "https://fakestoreapi.com/users";
 
+// All products
 export async function fetchProducts() {
   try {
     const response = await fetch(API_URL, {
@@ -16,6 +18,7 @@ export async function fetchProducts() {
   }
 }
 
+// Single product
 export async function fetchSingleProduct(productId) {
   try {
     const response = await fetch(`${API_URL}/${productId}`, {
@@ -31,9 +34,8 @@ export async function fetchSingleProduct(productId) {
   }
 }
 
+// Fetch user
 export async function fetchLogin(username, password) {
-  const userLogin = "johnd";
-  const passLogin = "m38rmF$";
   try {
     const response = await fetch(LOGIN_URL, {
       method: "POST",
@@ -41,8 +43,8 @@ export async function fetchLogin(username, password) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: userLogin,
-        password: passLogin,
+        username: `${username}`,
+        password: `${password}`,
       }),
     });
     const result = await response.json();

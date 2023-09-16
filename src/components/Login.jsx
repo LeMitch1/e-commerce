@@ -34,9 +34,9 @@ export default function Login() {
     auth.login(username);
     navigate(redirectPath, { replace: true });
 
-    const user = await fetchLogin(username, password);
-    setUser(user);
-    console.log(user.token);
+    const loggedInUser = await fetchLogin(username, password);
+    setUser(loggedInUser);
+    console.log("user", loggedInUser);
     console.log(username, password);
 
     localStorage.setItem("isLoggedIn", JSON.stringify(true));
