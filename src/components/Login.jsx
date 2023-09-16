@@ -8,20 +8,31 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   FormHelperText,
   FormErrorMessage,
   Spinner,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { fetchLogin } from "../API";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
-export default function Login({ setUser }) {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  // const [user, setUser] = useState("");
   const [isFetching, setIsFetching] = useState(true);
+
+  const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectPath = location.state?.path || "/";
+
+  const handleLogin = () => {
+    auth.login(username);
+    navigate(redirectPath, { replace: true });
+  };
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -32,7 +43,7 @@ export default function Login({ setUser }) {
   async function handleSubmit(e) {
     e.preventDefault();
     const user = await fetchLogin(username, password);
-    setUser({ username: username, password: password });
+    // setUser({ username: username, password: password });
     console.log(user.token);
     navigate("/profile");
 
@@ -65,7 +76,7 @@ export default function Login({ setUser }) {
           justify={"center"}
           bg="gray.50"
           as="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
