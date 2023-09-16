@@ -72,7 +72,7 @@ export default function NavBar() {
             <Box>
               <FontAwesomeIcon icon={faHouseLaptop} size="xl" />
               <Text fontWeight="bold" fontFamily="system-ui">
-                One-Stop
+                OneStop
               </Text>
             </Box>
             <HStack
