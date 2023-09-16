@@ -3,10 +3,11 @@ import {
   Flex,
   Heading,
   HStack,
-  Link,
   Stack,
   useColorModeValue as mode,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 import CartItem from "./CartItem";
 import CartOrderSummary from "./CartOrderSummary";
 
@@ -95,7 +96,13 @@ export default function Cart() {
           <CartOrderSummary />
           <HStack mt="6" fontWeight="semibold">
             <p>or</p>
-            <Link color={mode("blue.500", "blue.200")}>Continue shopping</Link>
+            <ChakraLink
+              as={ReactRouterLink}
+              to="/products"
+              color={mode("blue.500", "blue.200")}
+            >
+              Continue shopping
+            </ChakraLink>
           </HStack>
         </Flex>
       </Stack>
