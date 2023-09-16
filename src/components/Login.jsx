@@ -20,7 +20,7 @@ import { useAuth } from "./auth";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  // const [user, setUser] = useState("");
+  const [user, setUser] = useState("");
   const [isFetching, setIsFetching] = useState(true);
 
   const auth = useAuth();
@@ -29,30 +29,22 @@ export default function Login() {
 
   const redirectPath = location.state?.path || "/";
 
-  const handleLogin = () => {
+  async function handleLogin(e) {
+    e.preventDefault();
     auth.login(username);
     navigate(redirectPath, { replace: true });
-  };
 
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
-
-  const isError = username === "";
-  const validPassword = password.length < 7;
-
-  async function handleSubmit(e) {
-    e.preventDefault();
     const user = await fetchLogin(username, password);
-    // setUser({ username: username, password: password });
+    setUser(user);
     console.log(user.token);
-    navigate("/profile");
-
-    setUsername("");
-    setPassword("");
+    console.log(username, password);
 
     localStorage.setItem("isLoggedIn", JSON.stringify(true));
     localStorage.setItem("userToken", JSON.stringify(user.token));
   }
+
+  const isError = username === "";
+  const validPassword = password.length < 7;
 
   useEffect(() => {
     setTimeout(() => setIsFetching(false), 250);
@@ -92,7 +84,7 @@ export default function Login() {
                   <Input
                     type="text"
                     value={username}
-                    onChange={handleUsernameChange}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   {!isError ? (
                     <FormHelperText>Please enter your username</FormHelperText>
@@ -105,7 +97,7 @@ export default function Login() {
                   <Input
                     type="password"
                     value={password}
-                    onChange={handlePasswordChange}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   {!validPassword ? (
                     <FormHelperText>Enter your password</FormHelperText>
