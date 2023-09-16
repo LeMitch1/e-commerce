@@ -21,11 +21,19 @@ import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
 import ModalComponent from "./ModalComponent";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const Links = ["Home", "Products", "Login"];
+  const Links = ["Home", "Products", "profile"];
+
   const navigate = useNavigate();
+  const auth = useAuth();
+
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
+  };
 
   const NavLink = (props) => {
     const { children } = props;
@@ -99,10 +107,16 @@ export default function NavBar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => navigate("/profile")}>
-                  Profile
-                </MenuItem>
-                <MenuItem>Log out</MenuItem>
+                {!auth.user ? (
+                  <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+                ) : (
+                  <>
+                    <MenuItem onClick={() => navigate("/profile")}>
+                      Profile
+                    </MenuItem>
+                    <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                  </>
+                )}
               </MenuList>
             </Menu>
           </Flex>

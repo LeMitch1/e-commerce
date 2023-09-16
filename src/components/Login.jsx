@@ -8,40 +8,43 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   FormHelperText,
   FormErrorMessage,
   Spinner,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { fetchLogin } from "../API";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "./auth";
 
-export default function Login({ setUser }) {
+export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState("");
   const [isFetching, setIsFetching] = useState(true);
+
+  const auth = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+  const redirectPath = location.state?.path || "/";
 
-  const isError = username === "";
-  const validPassword = password.length < 7;
-
-  async function handleSubmit(e) {
+  async function handleLogin(e) {
     e.preventDefault();
-    const user = await fetchLogin(username, password);
-    setUser({ username: username, password: password });
-    console.log(user.token);
-    navigate("/profile");
+    auth.login(username);
+    navigate(redirectPath, { replace: true });
 
-    setUsername("");
-    setPassword("");
+    const user = await fetchLogin(username, password);
+    setUser(user);
+    console.log(user.token);
+    console.log(username, password);
 
     localStorage.setItem("isLoggedIn", JSON.stringify(true));
     localStorage.setItem("userToken", JSON.stringify(user.token));
   }
+
+  const isError = username === "";
+  const validPassword = password.length < 7;
 
   useEffect(() => {
     setTimeout(() => setIsFetching(false), 250);
@@ -65,7 +68,7 @@ export default function Login({ setUser }) {
           justify={"center"}
           bg="gray.50"
           as="form"
-          onSubmit={handleSubmit}
+          onSubmit={handleLogin}
         >
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
@@ -81,7 +84,7 @@ export default function Login({ setUser }) {
                   <Input
                     type="text"
                     value={username}
-                    onChange={handleUsernameChange}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   {!isError ? (
                     <FormHelperText>Please enter your username</FormHelperText>
@@ -94,7 +97,7 @@ export default function Login({ setUser }) {
                   <Input
                     type="password"
                     value={password}
-                    onChange={handlePasswordChange}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                   {!validPassword ? (
                     <FormHelperText>Enter your password</FormHelperText>
