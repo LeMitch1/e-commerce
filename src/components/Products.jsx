@@ -2,6 +2,7 @@ import { fetchProducts } from "../API";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Box,
   Card,
   CardBody,
   Image,
@@ -13,6 +14,7 @@ import {
   ButtonGroup,
   Button,
   Spinner,
+  Select,
 } from "@chakra-ui/react";
 import "../Products.css";
 import SearchBar from "./SearchBar";
@@ -21,6 +23,10 @@ export default function Products() {
   const [product, setProduct] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [query, setQuery] = useState({ search: "", results: [] });
+  const [sortType, setSortType] = useState("ascending");
+  const [sortByField, setSortByField] = useState("title");
+  const [result, setResult] = useState();
+  const [state, setState] = useState({ query: "", list: product });
   const navigate = useNavigate();
 
   const USDollar = new Intl.NumberFormat("en-US", {
@@ -82,14 +88,56 @@ export default function Products() {
     ));
   }
 
+  // Sort posts depending on sort type and available results
+  function sortFunc(results, sortType, sortByField) {
+    if (sortType === "ascending") {
+      results.sort((a, b) => (a[sortByField] < b[sortByField] ? -1 : 1));
+    } else if (sortType === "descending") {
+      results.sort((a, b) => (b[sortByField] > a[sortByField] ? 1 : -1));
+    } else if (sortType === "priceLowToHigh") {
+      results.sort((a, b) => a.price - b.price);
+    } else if (sortType === "priceHighToLow") {
+      results.sort((a, b) => b.price - a.price);
+    }
+    return results;
+  }
+
+  // Dropdown to sort posts in ascending or descending order depending on title.
+  function updatePosts(e) {
+    setSortType(e);
+    setState({
+      query: state.query,
+      list: !result
+        ? sortFunc(product, e, sortByField)
+        : sortFunc(result, e, sortByField),
+    });
+  }
+
   return (
     <>
-      <SearchBar
-        query={query}
-        onSetQuery={setQuery}
-        product={product}
-        id="search-bar"
-      />
+      <Box display="flex">
+        <SearchBar
+          query={query}
+          onSetQuery={setQuery}
+          product={product}
+          id="search-bar"
+        />
+        <Select
+          placeholder="Sort products"
+          size="sm"
+          width="20vw"
+          defaultValue={"DEFAULT"}
+          onChange={(e) => updatePosts(e.target.value)}
+        >
+          <option value="DEFAULT" disabled>
+            None
+          </option>
+          <option value="ascending">A-Z</option>
+          <option value="descending">Z-A</option>
+          <option value="priceLowToHigh">Price Low to High</option>
+          <option value="priceHighToLow">Price High to Low</option>
+        </Select>
+      </Box>
 
       {isFetching ? (
         <Stack
