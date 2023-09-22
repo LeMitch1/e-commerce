@@ -14,6 +14,8 @@ import {
   ButtonGroup,
   Spinner,
 } from "@chakra-ui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function SingleProduct() {
   const [product, setProduct] = useState([]);
@@ -52,12 +54,7 @@ export default function SingleProduct() {
           <Spinner boxSize="12em" size="xl" color="blue.500" thickness="4px" />
         </Stack>
       ) : (
-        <Card
-          maxW="sm"
-          key={product.id}
-          margin={6}
-          // bgGradient="linear(to-t, green.200, pink.500)"
-        >
+        <Card maxW="sm" key={product.id} margin={6}>
           <CardBody>
             <Image src={product.image} alt={product.title} borderRadius="lg" />
             <Stack mt="6" spacing="3">
@@ -66,15 +63,15 @@ export default function SingleProduct() {
               <Text color="blue.600" fontSize="2xl">
                 {USDollar.format(product.price)}
               </Text>
-              <Text>{product.rating?.rate}⭐️</Text>
+              <Text>
+                {product.rating?.rate}
+                <FontAwesomeIcon icon={faStar} />
+              </Text>
             </Stack>
           </CardBody>
           <Divider />
           <CardFooter>
             <ButtonGroup spacing="2">
-              {/* <Button variant="solid" colorScheme="blue">
-                Details
-              </Button> */}
               <Button variant="ghost" colorScheme="blue">
                 Add to cart
               </Button>

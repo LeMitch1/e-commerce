@@ -100,6 +100,8 @@ export default function Products() {
       results.sort((a, b) => b.price - a.price);
     } else if (sortType === "bestSellers") {
       results.sort((a, b) => b.rating.rate - a.rating.rate);
+    } else if (sortType === "original") {
+      results.sort((a, b) => a.id - b.id);
     }
     return results;
   }
@@ -125,15 +127,15 @@ export default function Products() {
           id="search-bar"
         />
         <Select
-          placeholder="Sort products"
           size="sm"
           width="20vw"
           defaultValue={"DEFAULT"}
           onChange={(e) => updatePosts(e.target.value)}
         >
           <option value="DEFAULT" disabled>
-            None
+            Sort Products
           </option>
+          <option value="original">Default</option>
           <option value="bestSellers">Best Sellers</option>
           <option value="ascending">A-Z</option>
           <option value="descending">Z-A</option>
