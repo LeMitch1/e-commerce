@@ -19,14 +19,12 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHouseLaptop } from "@fortawesome/free-solid-svg-icons";
-import ModalComponent from "./ModalComponent";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
 
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const Links = ["Home", "Products", "profile"];
+  const Links = ["Home", "Products"];
 
   const navigate = useNavigate();
   const auth = useAuth();
