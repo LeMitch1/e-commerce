@@ -98,6 +98,8 @@ export default function Products() {
       results.sort((a, b) => a.price - b.price);
     } else if (sortType === "priceHighToLow") {
       results.sort((a, b) => b.price - a.price);
+    } else if (sortType === "bestSellers") {
+      results.sort((a, b) => b.rating.rate - a.rating.rate);
     }
     return results;
   }
@@ -132,10 +134,11 @@ export default function Products() {
           <option value="DEFAULT" disabled>
             None
           </option>
+          <option value="bestSellers">Best Sellers</option>
           <option value="ascending">A-Z</option>
           <option value="descending">Z-A</option>
-          <option value="priceLowToHigh">Price Low to High</option>
-          <option value="priceHighToLow">Price High to Low</option>
+          <option value="priceLowToHigh">Price: Low to High</option>
+          <option value="priceHighToLow">Price: High to Low</option>
         </Select>
       </Box>
 
