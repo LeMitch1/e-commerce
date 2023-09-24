@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import "../Products.css";
 import SearchBar from "./SearchBar";
+import { filter } from "lodash";
 
 export default function Products() {
   const [product, setProduct] = useState([]);
@@ -27,6 +28,8 @@ export default function Products() {
   const [sortByField, setSortByField] = useState("title");
   const [result, setResult] = useState();
   const [state, setState] = useState({ query: "", list: product });
+  const [filtered, setFiltered] = useState([]);
+  const [category, setCategory] = useState(null);
   const navigate = useNavigate();
 
   const USDollar = new Intl.NumberFormat("en-US", {
@@ -39,6 +42,7 @@ export default function Products() {
       try {
         const data = await fetchProducts();
         setProduct(data);
+        setFiltered(data);
         setIsFetching(false);
         console.log(data);
       } catch (err) {
@@ -88,7 +92,6 @@ export default function Products() {
     ));
   }
 
-  // Sort posts depending on sort type and available results
   function sortFunc(results, sortType, sortByField) {
     if (sortType === "ascending") {
       results.sort((a, b) => (a[sortByField] < b[sortByField] ? -1 : 1));
@@ -106,7 +109,6 @@ export default function Products() {
     return results;
   }
 
-  // Dropdown to sort posts in ascending or descending order depending on title.
   function updatePosts(e) {
     setSortType(e);
     setState({
@@ -115,6 +117,13 @@ export default function Products() {
         ? sortFunc(product, e, sortByField)
         : sortFunc(result, e, sortByField),
     });
+  }
+
+  function handleFilter(cat) {
+    setCategory(cat);
+    const filteredCategory = filter(product, (p) => p.category === cat);
+    console.log(filteredCategory);
+    return setFiltered(filteredCategory);
   }
 
   return (
@@ -126,6 +135,20 @@ export default function Products() {
           product={product}
           id="search-bar"
         />
+        <Select
+          size="sm"
+          width="20vw"
+          defaultValue={"DEFAULT"}
+          onChange={(e) => handleFilter(e.target.value)}
+        >
+          <option value="DEFAULT" disabled>
+            Filter Products
+          </option>
+          <option value="men's clothing">Men&apos;s Clothing</option>
+          <option value="women's clothing">Women&apos;s Clothing</option>
+          <option value="jewelery">Jewelry</option>
+          <option value="electronics">Electronics</option>
+        </Select>
         <Select
           size="sm"
           width="20vw"
@@ -156,7 +179,7 @@ export default function Products() {
       ) : (
         <section className="Products">
           {query.search === ""
-            ? handleMapping(product)
+            ? handleMapping(filtered)
             : handleMapping(query.results)}
         </section>
       )}
